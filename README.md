@@ -1,5 +1,10 @@
 # Spring Boot on K8S
 
+程式在這：
+https://github.com/timmyBeef/spring-boot-k8s
+
+k8s 的 yaml 在這：
+https://github.com/timmyBeef/spring-boot-k8s/tree/main/k8s-yaml
 
 
 ## 產生一個這次要用來測試的 spring boot 
@@ -50,13 +55,17 @@ actuator health 和 自己建立的 api 都正常執行
 所以如果想要讀取 local 端的 image 就好的話, image tag 要改一下
 
 ## K8S 預設的 pull policy
-如果 docker image tag 是 latest, k8s 預設的 pull policy 就會是 Always
-其他 tag： 預設 pull policy: IfNotPresent
+* 如果 docker image tag 是 latest
+    * k8s 預設的 pull policy 就會是 Always
+* 其他 tag
+    * 預設 pull policy: IfNotPresent
 
-想要讀取 local 端的 image 的 pull policy： 直接在設定成 Never 或 IfNotPresent
 
-也可以直接把 image tag 設成像這樣 => pull policy 就是 IfNotPresent
-```
+所以想要讀取 local 端的 image 的 pull policy： 
+* 直接 pod yaml 裡面 image pull policy 設定成 Never 或 IfNotPresent
+
+* 也可以直接把 image tag 設成像下面這樣 snapshot => 這樣 pull policy 就是 IfNotPresent
+```bash=
 $ docker tag spring-k8s/spring-boot-k8s spring-k8s/gs-spring-boot-k8s:snapshot
 
 ```
@@ -86,7 +95,7 @@ $ kind load docker-image spring-k8s/gs-spring-boot-k8s:snapshot
 ## in kind cluster
 
 偷懶用, 這樣之後都打 k 就好
-```
+```bash=
 alias k=kubectl
 ```
 
@@ -144,7 +153,7 @@ k port-forward svc/spring-boot-k8s 9090:80
 # livenessProbe, readinessProbe, lifecycle
 
 在 pod 內 containers 第一個內加上
-```
+```yaml=
   livenessProbe:
 	httpGet:
 	  path: /actuator/health/liveness
