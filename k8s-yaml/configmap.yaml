@@ -1,0 +1,30 @@
+apiVersion: v1
+data:
+  application.yaml: |
+    server:
+      shutdown=graceful
+    management:
+      endpoints:
+        enabled-by-default: true
+        web:
+          exposure:
+            include: "*"
+    hello:
+      color: red
+kind: ConfigMap
+metadata:
+  creationTimestamp: "2021-02-27T08:16:17Z"
+  managedFields:
+  - apiVersion: v1
+    fieldsType: FieldsV1
+    fieldsV1:
+      f:data:
+        .: {}
+        f:application.yaml: {}
+    manager: kubectl-create
+    operation: Update
+    time: "2021-02-27T08:16:17Z"
+  name: spring-boot-k8s
+  namespace: default
+  resourceVersion: "5719"
+  uid: e59f4fe5-2d54-4cdb-862c-297642e549b0
