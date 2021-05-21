@@ -66,11 +66,19 @@ actuator health 和 自己建立的 api 都正常執行
 
 * 也可以直接把 image tag 設成像下面這樣 snapshot => 這樣 pull policy 就是 IfNotPresent
 ```bash=
-$ docker tag spring-k8s/spring-boot-k8s spring-k8s/gs-spring-boot-k8s:snapshot
+$ docker tag spring-k8s/spring-boot-k8s spring-k8s/spring-boot-k8s:snapshot
 
 ```
 
+# 開始操作 k8s
+偷懶用, 這樣之後都打 k 就好
+```bash=
+alias k=kubectl
+```
+
 # local K8S - kind
+
+如果使用 minikube 可以忽略這部分
 
 在本機玩 K8S, 除了 minikube 還可以用另一套 kind 來玩（這裡主要是為了使用 kind load 把 image 直接讀進本地使用）
 
@@ -83,23 +91,23 @@ brew install kind
 kind create cluster
 ```
 
-
-
 ![](https://i.imgur.com/xtNvg79.png)
 
 把打包好的 image 讀取到 k8s 本地端
 ```bash=
-$ kind load docker-image spring-k8s/gs-spring-boot-k8s:snapshot
+$ kind load docker-image spring-k8s/spring-boot-k8s:snapshot
 ```
-
-## in kind cluster
-
-偷懶用, 這樣之後都打 k 就好
-```bash=
-alias k=kubectl
-```
-
 ![](https://i.imgur.com/IfbkMjj.png)
+
+
+## in minikube
+只要把打包好的 image 推上 dockerhub即可
+### tag & push docker images
+```
+docker tag spring-boot-k8s timmybeeflin/spring-boot-k8s:snapshot
+
+docker push timmybeeflin/spring-boot-k8s:snapshot
+```
 
 ## 建立 deployment & service
 
